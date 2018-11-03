@@ -4,7 +4,7 @@ let cards = [
   '1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', '10s', 'js', 'qs', 'ks',
   '1c', '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', '10c', 'jc', 'qc', 'kc',
 ]
-
+let shuffleNumber = 0
 function chooseRandomSpot(deckArray, arrayIndex) {
   if (isNaN(arrayIndex)) {
     let randomNumber = (Math.floor((Math.random() * 52) + 1));
@@ -15,7 +15,7 @@ function chooseRandomSpot(deckArray, arrayIndex) {
   }
 }
 
-function shuffle(date) {
+function shuffle() {
   let deckArray = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
     14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
@@ -30,10 +30,12 @@ function shuffle(date) {
   }
   cards = deckArray
 
-  let now = new Date()
-  if ((now - date) <= 5000) {
-    shuffle(date)
+  shuffleNumber++
+  if (shuffleNumber <= 100) {
+    shuffle()
   } else {
+    shuffleNumber = 0
     console.log(cards)
+    return cards
   }
 }
