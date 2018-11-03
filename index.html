@@ -7,17 +7,20 @@
   <title>Shuffle</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-  <script src="shuffle.js"></script>
+  <script src="playCards.js"></script>
 </head>
 
 <body>
-  <div id='wrap'>
+  <div class='wrap'>
     <button onclick='shuffle()'>Shuffle</button>
     <div># of Players: </div>
     <input id='players' type='text' value='2' />
     <div># of Cards: </div>
     <input id='cards' type='text' value='10' />
     <button onclick='deal()'>Deal</button>
+    <div id='message'></div>
+  </div>
+  <div class='wrap'>
   </div>
 </body>
 
