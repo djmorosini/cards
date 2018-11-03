@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,16 @@
   <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
   <script src="shuffle.js"></script>
 </head>
+
 <body>
-  <button onclick='shuffle()'>Shuffle</button>
+  <div id='wrap'>
+    <button onclick='shuffle()'>Shuffle</button>
+    <div># of Players: </div>
+    <input id='players' type='text' value='2' />
+    <div># of Cards: </div>
+    <input id='cards' type='text' value='10' />
+    <button onclick='deal()'>Deal</button>
+  </div>
 </body>
+
 </html>

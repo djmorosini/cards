@@ -8,7 +8,7 @@ let shuffleNumber = 0
 function chooseRandomSpot(deckArray, arrayIndex) {
   if (isNaN(arrayIndex)) {
     let randomNumber = (Math.floor((Math.random() * 52) + 1));
-    let newSpot = deckArray[randomNumber-1]
+    let newSpot = deckArray[randomNumber - 1]
     return chooseRandomSpot(deckArray, newSpot)
   } else {
     return arrayIndex
@@ -24,9 +24,9 @@ function shuffle() {
   ]
   for (let card of cards) {
     let randomNumber = (Math.floor((Math.random() * 52) + 1));
-    let arrayIndex = deckArray[randomNumber-1]
+    let arrayIndex = deckArray[randomNumber - 1]
     let randomSpot = chooseRandomSpot(deckArray, arrayIndex)
-    deckArray[randomSpot-1] = card
+    deckArray[randomSpot - 1] = card
   }
   cards = deckArray
 
@@ -38,4 +38,25 @@ function shuffle() {
     console.log(cards)
     return cards
   }
+}
+
+function deal() {
+  let players = document.getElementById('players').value
+  let numberOfCards = document.getElementById('cards').value
+  let handsToDeal = 1
+  let playerHands = []
+  while (handsToDeal <= players) {
+    playerHands.push([])
+    handsToDeal++
+  }
+  let cardsDealt = 1
+  while (cardsDealt <= numberOfCards) {
+    for (let hand of playerHands) {
+      hand.push(cards.shift())
+      cardsDealt++
+    }
+  }
+  console.log(playerHands)
+  console.log(cards)
+  return playerHands
 }
