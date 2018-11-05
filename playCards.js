@@ -48,8 +48,8 @@ function deal() {
   let players = document.getElementById('players').value
   let numberOfCards = document.getElementById('cards').value
   let maxHandLength = numberOfCards / players
-  throwAwayCards()
   if (cards.length >= (players * maxHandLength) && (numberOfCards % players) === 0) {
+    throwAwayCards()
     while (playerHands.length < players) {
       playerHands.push([])
     }
