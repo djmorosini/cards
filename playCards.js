@@ -52,11 +52,9 @@ function deal() {
   if (cards.length >= (players * maxHandLength) && (numberOfCards % players) === 0) {
     while (playerHands.length < players) {
       playerHands.push([])
-      console.log(playerHands+' length: '+ playerHands.length)
     }
     while (playerHands.join(',').split(',').length < maxHandLength * players) {
       for (let hand of playerHands) {
-        console.log(hand)
         if (hand.length < maxHandLength) {
           hand.push(cards.shift())
         } else {

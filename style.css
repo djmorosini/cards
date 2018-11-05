@@ -20,6 +20,10 @@
   border: 1px solid black;
   margin-right: 10px;
   padding: 5px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  letter-spacing: 1px;
 }
 .red {
   color: red;
