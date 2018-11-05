@@ -45,24 +45,28 @@ function shuffle() {
 }
 
 function deal() {
-  let players = document.getElementById('players').value
-  let numberOfCards = document.getElementById('cards').value
-  let handsToDeal = 1
-  while (handsToDeal <= players) {
-    playerHands.push([])
-    handsToDeal++
-  }
-  let cardsDealt = 1
-  while (cardsDealt <= numberOfCards) {
-    for (let hand of playerHands) {
-      hand.push(cards.shift())
-      cardsDealt++
+  if (cards.length >= 20) {
+    let players = document.getElementById('players').value
+    let numberOfCards = document.getElementById('cards').value
+    let handsToDeal = 1
+    if (playerHands.length === 0) {
+      while (handsToDeal <= players) {
+        playerHands.push([])
+        handsToDeal++
+      }
     }
+    let cardsDealt = 1
+    while (cardsDealt <= numberOfCards) {
+      for (let hand of playerHands) {
+        hand.push(cards.shift())
+        cardsDealt++
+      }
+    }
+    console.log(playerHands)
+    console.log(cards)
+    displayCards()
+    return playerHands
   }
-  console.log(playerHands)
-  console.log(cards)
-  displayCards()
-  return playerHands
 }
 // ♥ ♣ ♠ ♦ 🃏
 function displayCards() {
@@ -70,173 +74,173 @@ function displayCards() {
   handsDiv.innerHTML = ''
   let player = 1
   for (let hand of playerHands) {
+    handsDiv.innerHTML += 'Player ' + player + ': '
     handsDiv.innerHTML += `<div class="player-hand" id="player${player}"></div>`
     playerHandDiv = document.getElementById(`player${player}`)
-    playerHandDiv.innerHTML += 'Player ' + player + ': '
     for (let card of hand) {
       switch (card) {
-        case '1d' :
-        playerHandDiv.innerHTML += '<div>A♦</div>'
-        break
-        case '2d' :
-        playerHandDiv.innerHTML += '<div>2♦</div>'
-        break
-        case '3d' :
-        playerHandDiv.innerHTML += '<div>3♦</div>'
-        break
-        case '4d' :
-        playerHandDiv.innerHTML += '<div>4♦</div>'
-        break
-        case '5d' :
-        playerHandDiv.innerHTML += '<div>5♦</div>'
-        break
-        case '6d' :
-        playerHandDiv.innerHTML += '<div>6♦</div>'
-        break
-        case '7d' :
-        playerHandDiv.innerHTML += '<div>7♦</div>'
-        break
-        case '8d' :
-        playerHandDiv.innerHTML += '<div>8♦</div>'
-        break
-        case '9d' :
-        playerHandDiv.innerHTML += '<div>9♦</div>'
-        break
-        case '10d' :
-        playerHandDiv.innerHTML += '<div>10♦</div>'
-        break
-        case 'jd' :
-        playerHandDiv.innerHTML += '<div>J♦</div>'
-        break
-        case 'qd' :
-        playerHandDiv.innerHTML += '<div>Q♦</div>'
-        break
-        case 'kd' :
-        playerHandDiv.innerHTML += '<div>K♦</div>'
-        break
+        case '1d':
+          playerHandDiv.innerHTML += '<div class="card-face red">A♦</div>'
+          break
+        case '2d':
+          playerHandDiv.innerHTML += '<div class="card-face red">2♦</div>'
+          break
+        case '3d':
+          playerHandDiv.innerHTML += '<div class="card-face red">3♦</div>'
+          break
+        case '4d':
+          playerHandDiv.innerHTML += '<div class="card-face red">4♦</div>'
+          break
+        case '5d':
+          playerHandDiv.innerHTML += '<div class="card-face red">5♦</div>'
+          break
+        case '6d':
+          playerHandDiv.innerHTML += '<div class="card-face red">6♦</div>'
+          break
+        case '7d':
+          playerHandDiv.innerHTML += '<div class="card-face red">7♦</div>'
+          break
+        case '8d':
+          playerHandDiv.innerHTML += '<div class="card-face red">8♦</div>'
+          break
+        case '9d':
+          playerHandDiv.innerHTML += '<div class="card-face red">9♦</div>'
+          break
+        case '10d':
+          playerHandDiv.innerHTML += '<div class="card-face red">10♦</div>'
+          break
+        case 'jd':
+          playerHandDiv.innerHTML += '<div class="card-face red">J♦</div>'
+          break
+        case 'qd':
+          playerHandDiv.innerHTML += '<div class="card-face red">Q♦</div>'
+          break
+        case 'kd':
+          playerHandDiv.innerHTML += '<div class="card-face red">K♦</div>'
+          break
 
-        case '1h' :
-        playerHandDiv.innerHTML += '<div>A♥</div>'
-        break
-        case '2h' :
-        playerHandDiv.innerHTML += '<div>2♥</div>'
-        break
-        case '3h' :
-        playerHandDiv.innerHTML += '<div>3♥</div>'
-        break
-        case '4h' :
-        playerHandDiv.innerHTML += '<div>4♥</div>'
-        break
-        case '5h' :
-        playerHandDiv.innerHTML += '<div>5♥</div>'
-        break
-        case '6h' :
-        playerHandDiv.innerHTML += '<div>6♥</div>'
-        break
-        case '7h' :
-        playerHandDiv.innerHTML += '<div>7♥</div>'
-        break
-        case '8h' :
-        playerHandDiv.innerHTML += '<div>8♥</div>'
-        break
-        case '9h' :
-        playerHandDiv.innerHTML += '<div>9♥</div>'
-        break
-        case '10h' :
-        playerHandDiv.innerHTML += '<div>10♥</div>'
-        break
-        case 'jh' :
-        playerHandDiv.innerHTML += '<div>J♥</div>'
-        break
-        case 'qh' :
-        playerHandDiv.innerHTML += '<div>Q♥</div>'
-        break
-        case 'kh' :
-        playerHandDiv.innerHTML += '<div>K♥</div>'
-        break
+        case '1h':
+          playerHandDiv.innerHTML += '<div class="card-face red">A♥</div>'
+          break
+        case '2h':
+          playerHandDiv.innerHTML += '<div class="card-face red">2♥</div>'
+          break
+        case '3h':
+          playerHandDiv.innerHTML += '<div class="card-face red">3♥</div>'
+          break
+        case '4h':
+          playerHandDiv.innerHTML += '<div class="card-face red">4♥</div>'
+          break
+        case '5h':
+          playerHandDiv.innerHTML += '<div class="card-face red">5♥</div>'
+          break
+        case '6h':
+          playerHandDiv.innerHTML += '<div class="card-face red">6♥</div>'
+          break
+        case '7h':
+          playerHandDiv.innerHTML += '<div class="card-face red">7♥</div>'
+          break
+        case '8h':
+          playerHandDiv.innerHTML += '<div class="card-face red">8♥</div>'
+          break
+        case '9h':
+          playerHandDiv.innerHTML += '<div class="card-face red">9♥</div>'
+          break
+        case '10h':
+          playerHandDiv.innerHTML += '<div class="card-face red">10♥</div>'
+          break
+        case 'jh':
+          playerHandDiv.innerHTML += '<div class="card-face red">J♥</div>'
+          break
+        case 'qh':
+          playerHandDiv.innerHTML += '<div class="card-face red">Q♥</div>'
+          break
+        case 'kh':
+          playerHandDiv.innerHTML += '<div class="card-face red">K♥</div>'
+          break
 
-        case '1c' :
-        playerHandDiv.innerHTML += '<div>A♣</div>'
-        break
-        case '2c' :
-        playerHandDiv.innerHTML += '<div>2♣</div>'
-        break
-        case '3c' :
-        playerHandDiv.innerHTML += '<div>3♣</div>'
-        break
-        case '4c' :
-        playerHandDiv.innerHTML += '<div>4♣</div>'
-        break
-        case '5c' :
-        playerHandDiv.innerHTML += '<div>5♣</div>'
-        break
-        case '6c' :
-        playerHandDiv.innerHTML += '<div>6♣</div>'
-        break
-        case '7c' :
-        playerHandDiv.innerHTML += '<div>7♣</div>'
-        break
-        case '8c' :
-        playerHandDiv.innerHTML += '<div>8♣</div>'
-        break
-        case '9c' :
-        playerHandDiv.innerHTML += '<div>9♣</div>'
-        break
-        case '10c' :
-        playerHandDiv.innerHTML += '<div>10♣</div>'
-        break
-        case 'jc' :
-        playerHandDiv.innerHTML += '<div>J♣</div>'
-        break
-        case 'qc' :
-        playerHandDiv.innerHTML += '<div>Q♣</div>'
-        break
-        case 'kc' :
-        playerHandDiv.innerHTML += '<div>K♣</div>'
-        break
+        case '1c':
+          playerHandDiv.innerHTML += '<div class="card-face black">A♣</div>'
+          break
+        case '2c':
+          playerHandDiv.innerHTML += '<div class="card-face black">2♣</div>'
+          break
+        case '3c':
+          playerHandDiv.innerHTML += '<div class="card-face black">3♣</div>'
+          break
+        case '4c':
+          playerHandDiv.innerHTML += '<div class="card-face black">4♣</div>'
+          break
+        case '5c':
+          playerHandDiv.innerHTML += '<div class="card-face black">5♣</div>'
+          break
+        case '6c':
+          playerHandDiv.innerHTML += '<div class="card-face black">6♣</div>'
+          break
+        case '7c':
+          playerHandDiv.innerHTML += '<div class="card-face black">7♣</div>'
+          break
+        case '8c':
+          playerHandDiv.innerHTML += '<div class="card-face black">8♣</div>'
+          break
+        case '9c':
+          playerHandDiv.innerHTML += '<div class="card-face black">9♣</div>'
+          break
+        case '10c':
+          playerHandDiv.innerHTML += '<div class="card-face black">10♣</div>'
+          break
+        case 'jc':
+          playerHandDiv.innerHTML += '<div class="card-face black">J♣</div>'
+          break
+        case 'qc':
+          playerHandDiv.innerHTML += '<div class="card-face black">Q♣</div>'
+          break
+        case 'kc':
+          playerHandDiv.innerHTML += '<div class="card-face black">K♣</div>'
+          break
 
-        case '1s' :
-        playerHandDiv.innerHTML += '<div>A♠</div>'
-        break
-        case '2s' :
-        playerHandDiv.innerHTML += '<div>2♠</div>'
-        break
-        case '3s' :
-        playerHandDiv.innerHTML += '<div>3♠</div>'
-        break
-        case '4s' :
-        playerHandDiv.innerHTML += '<div>4♠</div>'
-        break
-        case '5s' :
-        playerHandDiv.innerHTML += '<div>5♠</div>'
-        break
-        case '6s' :
-        playerHandDiv.innerHTML += '<div>6♠</div>'
-        break
-        case '7s' :
-        playerHandDiv.innerHTML += '<div>7♠</div>'
-        break
-        case '8s' :
-        playerHandDiv.innerHTML += '<div>8♠</div>'
-        break
-        case '9s' :
-        playerHandDiv.innerHTML += '<div>9♠</div>'
-        break
-        case '10s' :
-        playerHandDiv.innerHTML += '<div>10♠</div>'
-        break
-        case 'js' :
-        playerHandDiv.innerHTML += '<div>J♠</div>'
-        break
-        case 'qs' :
-        playerHandDiv.innerHTML += '<div>Q♠</div>'
-        break
-        case 'ks' :
-        playerHandDiv.innerHTML += '<div>K♠</div>'
-        break
+        case '1s':
+          playerHandDiv.innerHTML += '<div class="card-face black">A♠</div>'
+          break
+        case '2s':
+          playerHandDiv.innerHTML += '<div class="card-face black">2♠</div>'
+          break
+        case '3s':
+          playerHandDiv.innerHTML += '<div class="card-face black">3♠</div>'
+          break
+        case '4s':
+          playerHandDiv.innerHTML += '<div class="card-face black">4♠</div>'
+          break
+        case '5s':
+          playerHandDiv.innerHTML += '<div class="card-face black">5♠</div>'
+          break
+        case '6s':
+          playerHandDiv.innerHTML += '<div class="card-face black">6♠</div>'
+          break
+        case '7s':
+          playerHandDiv.innerHTML += '<div class="card-face black">7♠</div>'
+          break
+        case '8s':
+          playerHandDiv.innerHTML += '<div class="card-face black">8♠</div>'
+          break
+        case '9s':
+          playerHandDiv.innerHTML += '<div class="card-face black">9♠</div>'
+          break
+        case '10s':
+          playerHandDiv.innerHTML += '<div class="card-face black">10♠</div>'
+          break
+        case 'js':
+          playerHandDiv.innerHTML += '<div class="card-face black">J♠</div>'
+          break
+        case 'qs':
+          playerHandDiv.innerHTML += '<div class="card-face black">Q♠</div>'
+          break
+        case 'ks':
+          playerHandDiv.innerHTML += '<div class="card-face black">K♠</div>'
+          break
 
-        default :
-        playerHandDiv.innerHTML += '<div>🃏🃏</div>'
+        default:
+          playerHandDiv.innerHTML += '<div class="card-face">🃏🃏</div>'
       }
     }
     player++

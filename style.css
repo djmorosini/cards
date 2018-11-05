@@ -1,11 +1,28 @@
-.wrap {
+#wrap {
   display: flex;
   flex-direction: column;
   width: 200px;
   height: 200px;
   justify-content: space-around;
 }
+#hands-wrap {
+  display: flex;
+  flex-direction: column;
+}
 .player-hand {
   display: flex;
-  justify-content: space-around;
+}
+
+.card-face {
+  height: 80px;
+  width: 50px;
+  border: 1px solid black;
+  margin-right: 10px;
+  padding: 5px;
+}
+.red {
+  color: red;
+}
+.black {
+  color: black;
 }
