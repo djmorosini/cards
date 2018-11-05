@@ -45,27 +45,31 @@ function shuffle() {
 }
 
 function deal() {
-  if (cards.length >= 20) {
-    let players = document.getElementById('players').value
-    let numberOfCards = document.getElementById('cards').value
-    let handsToDeal = 1
-    if (playerHands.length === 0) {
-      while (handsToDeal <= players) {
-        playerHands.push([])
-        handsToDeal++
-      }
+  let players = document.getElementById('players').value
+  let numberOfCards = document.getElementById('cards').value
+  let maxHandLength = numberOfCards / players
+
+  if (cards.length >= (players * maxHandLength) && (numberOfCards % players) === 0) {
+    while (playerHands.length < players) {
+      playerHands.push([])
+      console.log(playerHands+' length: '+ playerHands.length)
     }
-    let cardsDealt = 1
-    while (cardsDealt <= numberOfCards) {
+    while (playerHands.join(',').split(',').length < maxHandLength * players) {
       for (let hand of playerHands) {
-        hand.push(cards.shift())
-        cardsDealt++
+        console.log(hand)
+        if (hand.length < maxHandLength) {
+          hand.push(cards.shift())
+        } else {
+          console.log('hand full')
+        }
       }
     }
     console.log(playerHands)
     console.log(cards)
     displayCards()
     return playerHands
+  } else {
+    console.log('not enough cards for each player')
   }
 }
 // ♥ ♣ ♠ ♦ 🃏

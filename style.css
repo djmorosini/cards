@@ -11,6 +11,7 @@
 }
 .player-hand {
   display: flex;
+  flex-flow: wrap;
 }
 
 .card-face {
