@@ -11,6 +11,8 @@ let red = [
 ]
 let shuffleNumber = 0
 let playerHands = []
+let players
+let maxHandLength
 function chooseRandomSpot(deckArray, arrayIndex) {
   if (isNaN(arrayIndex)) {
     let randomNumber = (Math.floor((Math.random() * 52) + 1));
@@ -52,20 +54,26 @@ function shuffle() {
 function chooseGame() {
   returnAllCards()
   shuffle()
-  let players = document.getElementById('players').value
+  players = document.getElementById('players').value
+  maxHandLength = document.getElementById('max-hand').value
+
   let cardsToDeal = document.getElementById('cards').value
   while (playerHands.length < players) {
     playerHands.push([])
   }
   deal(cardsToDeal)
+  document.getElementById('choose-or-play').innerHTML = `<div># of Cards: </div><input id='cards' type='text' /><div>Deal to player: </div><input id='deal-to' type='text' /><button onclick='deal()'>Deal</button>`
 }
 
-function deal(numberOfCardsToDeal, maxHandLength) {
-  maxHandLength = maxHandLength || document.getElementById('max-hand').value
+function deal(numberOfCardsToDeal, dealToPlayer) {
   numberOfCardsToDeal = numberOfCardsToDeal || document.getElementById('cards').value
+
   throwAwayCards()
 
-  let players = document.getElementById('players').value
+  let dealToDiv = document.getElementById('deal-to')
+  if (!dealToPlayer && dealToDiv) {
+    dealToPlayer = document.getElementById('deal-to').value
+  }
   if (playerHands.length !== players) {
     while (playerHands.length < players) {
       playerHands.push([])
@@ -83,7 +91,6 @@ function deal(numberOfCardsToDeal, maxHandLength) {
     }
   } else {
     let cardsDealt = 0
-    let dealToPlayer = document.getElementById('deal-to').value
     if (dealToPlayer && dealToPlayer <= playerHands.length) {
       hand = playerHands[dealToPlayer - 1]
       while (cardsDealt < numberOfCardsToDeal && cards.length !== 0) {
@@ -105,6 +112,7 @@ function deal(numberOfCardsToDeal, maxHandLength) {
   displayCards()
   return playerHands
 }
+
 function displayCards() {
   let handsDiv = document.getElementById('hands-wrap')
   handsDiv.innerHTML = ''
@@ -161,4 +169,9 @@ function discardCard(id, cardColor) {
     cardFace.style = 'border: 2px solid rgb(255, 0, 0);'
     cardFace.className += ' active'
   }
+}
+
+function reset() {
+  shuffle()
+  document.getElementById('choose-or-play').innerHTML = `<div># of Players: </div><input id='players' type='text' value='2' /><div># of Cards: </div><input id='cards' type='text' value='10' /><div>Max Hand: </div><input id='max-hand' type='text' value='5' /><button onclick='chooseGame()'>Choose Game</button>`
 }

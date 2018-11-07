@@ -14,17 +14,17 @@
 <body>
   <div id='wrap'>
     <button onclick='shuffle()'>Shuffle</button>
-    <div># of Players: </div>
-    <input id='players' type='text' value='2' />
-    <div># of Cards: </div>
-    <input id='cards' type='text' value='10' />
-    <div>Max Hand: </div>
-    <input id='max-hand' type='text' value='5' />
-    <div>Deal to player: </div>
-    <input id='deal-to' type='text' />
-    <button onclick='chooseGame()'>Choose Game</button>
-    <button onclick='deal()'>Deal</button>
+    <div id='choose-or-play'>
+      <div># of Players: </div>
+      <input id='players' type='text' value='2' />
+      <div># of Cards: </div>
+      <input id='cards' type='text' value='10' />
+      <div>Max Hand: </div>
+      <input id='max-hand' type='text' value='5' />
+      <button onclick='chooseGame()'>Choose Game</button>
+    </div>
     <div id='message'></div>
+    <button onclick='reset()'>Reset</button>
   </div>
   <div id='hands-wrap'>
   </div>
