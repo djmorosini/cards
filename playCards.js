@@ -1,8 +1,13 @@
+// ♥ ♣ ♠ ♦ 🃏
 let cards = [
-  '1d', '2d', '3d', '4d', '5d', '6d', '7d', '8d', '9d', '10d', 'jd', 'qd', 'kd',
-  '1h', '2h', '3h', '4h', '5h', '6h', '7h', '8h', '9h', '10h', 'jh', 'qh', 'kh',
-  '1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s', '10s', 'js', 'qs', 'ks',
-  '1c', '2c', '3c', '4c', '5c', '6c', '7c', '8c', '9c', '10c', 'jc', 'qc', 'kc',
+  'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+  'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+  'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠',
+  'A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+]
+let red = [
+  'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+  'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥'
 ]
 let shuffleNumber = 0
 let playerHands = []
@@ -46,6 +51,7 @@ function shuffle() {
 
 function chooseGame() {
   returnAllCards()
+  shuffle()
   let players = document.getElementById('players').value
   let cardsValue = document.getElementById('cards').value
   while (playerHands.length < players) {
@@ -54,17 +60,27 @@ function chooseGame() {
   deal(cardsValue)
 }
 
-function deal(numberOfCardsToDeal, player) {
+function deal(numberOfCardsToDeal) {
   numberOfCardsToDeal = numberOfCardsToDeal || document.getElementById('cards').value
   throwAwayCards()
+
+  let players = document.getElementById('players').value
+  if (playerHands.length !== players) {
+    while (playerHands.length < players) {
+      playerHands.push([])
+    }
+  }
+
   let cardsDealt = 0
-  if (player) {
-    hand = playerHands[player-1]
+  let dealToPlayer = document.getElementById('deal-to').value
+  if (dealToPlayer && dealToPlayer <= playerHands.length) {
+    hand = playerHands[dealToPlayer - 1]
     while (cardsDealt < numberOfCardsToDeal && cards.length !== 0) {
-        hand.push(cards.shift())
-        cardsDealt++
-      }
-  } else {
+      hand.push(cards.shift())
+      cardsDealt++
+    }
+    document.getElementById('deal-to').value = ''
+  } else if (!dealToPlayer) {
     while (cardsDealt < numberOfCardsToDeal && cards.length !== 0) {
       for (let hand of playerHands) {
         hand.push(cards.shift())
@@ -77,7 +93,6 @@ function deal(numberOfCardsToDeal, player) {
   displayCards()
   return playerHands
 }
-// ♥ ♣ ♠ ♦ 🃏
 function displayCards() {
   let handsDiv = document.getElementById('hands-wrap')
   handsDiv.innerHTML = ''
@@ -87,169 +102,10 @@ function displayCards() {
     handsDiv.innerHTML += `<div class="player-hand" id="player${player}"></div>`
     playerHandDiv = document.getElementById(`player${player}`)
     for (let card of hand) {
-      switch (card) {
-        case '1d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">A♦</div>`
-          break
-        case '2d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">2♦</div>`
-          break
-        case '3d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">3♦</div>`
-          break
-        case '4d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">4♦</div>`
-          break
-        case '5d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">5♦</div>`
-          break
-        case '6d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">6♦</div>`
-          break
-        case '7d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">7♦</div>`
-          break
-        case '8d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">8♦</div>`
-          break
-        case '9d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">9♦</div>`
-          break
-        case '10d':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">10♦</div>`
-          break
-        case 'jd':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">J♦</div>`
-          break
-        case 'qd':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">Q♦</div>`
-          break
-        case 'kd':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">K♦</div>`
-          break
-
-        case '1h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">A♥</div>`
-          break
-        case '2h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">2♥</div>`
-          break
-        case '3h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">3♥</div>`
-          break
-        case '4h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">4♥</div>`
-          break
-        case '5h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">5♥</div>`
-          break
-        case '6h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">6♥</div>`
-          break
-        case '7h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">7♥</div>`
-          break
-        case '8h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">8♥</div>`
-          break
-        case '9h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">9♥</div>`
-          break
-        case '10h':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">10♥</div>`
-          break
-        case 'jh':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">J♥</div>`
-          break
-        case 'qh':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">Q♥</div>`
-          break
-        case 'kh':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">K♥</div>`
-          break
-
-        case '1c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">A♣</div>`
-          break
-        case '2c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">2♣</div>`
-          break
-        case '3c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">3♣</div>`
-          break
-        case '4c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">4♣</div>`
-          break
-        case '5c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">5♣</div>`
-          break
-        case '6c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">6♣</div>`
-          break
-        case '7c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">7♣</div>`
-          break
-        case '8c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">8♣</div>`
-          break
-        case '9c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">9♣</div>`
-          break
-        case '10c':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">10♣</div>`
-          break
-        case 'jc':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">J♣</div>`
-          break
-        case 'qc':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">Q♣</div>`
-          break
-        case 'kc':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">K♣</div>`
-          break
-
-        case '1s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">A♠</div>`
-          break
-        case '2s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">2♠</div>`
-          break
-        case '3s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">3♠</div>`
-          break
-        case '4s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">4♠</div>`
-          break
-        case '5s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">5♠</div>`
-          break
-        case '6s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">6♠</div>`
-          break
-        case '7s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">7♠</div>`
-          break
-        case '8s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">8♠</div>`
-          break
-        case '9s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">9♠</div>`
-          break
-        case '10s':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">10♠</div>`
-          break
-        case 'js':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">J♠</div>`
-          break
-        case 'qs':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">Q♠</div>`
-          break
-        case 'ks':
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">K♠</div>`
-          break
-
-        default:
-          playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}')" class="card-face">🃏🃏</div>`
+      if (red.includes(card)) {
+        playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">${card}</div>`
+      } else {
+        playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'black')" class="card-face black">${card}</div>`
       }
     }
     player++
