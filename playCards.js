@@ -53,14 +53,15 @@ function chooseGame() {
   returnAllCards()
   shuffle()
   let players = document.getElementById('players').value
-  let cardsValue = document.getElementById('cards').value
+  let cardsToDeal = document.getElementById('cards').value
   while (playerHands.length < players) {
     playerHands.push([])
   }
-  deal(cardsValue)
+  deal(cardsToDeal)
 }
 
-function deal(numberOfCardsToDeal) {
+function deal(numberOfCardsToDeal, maxHandLength) {
+  maxHandLength = maxHandLength || document.getElementById('max-hand').value
   numberOfCardsToDeal = numberOfCardsToDeal || document.getElementById('cards').value
   throwAwayCards()
 
@@ -70,21 +71,32 @@ function deal(numberOfCardsToDeal) {
       playerHands.push([])
     }
   }
-
-  let cardsDealt = 0
-  let dealToPlayer = document.getElementById('deal-to').value
-  if (dealToPlayer && dealToPlayer <= playerHands.length) {
-    hand = playerHands[dealToPlayer - 1]
-    while (cardsDealt < numberOfCardsToDeal && cards.length !== 0) {
-      hand.push(cards.shift())
-      cardsDealt++
-    }
-    document.getElementById('deal-to').value = ''
-  } else if (!dealToPlayer) {
-    while (cardsDealt < numberOfCardsToDeal && cards.length !== 0) {
+  if (maxHandLength) {
+    while (playerHands.join(',').split(',').length < maxHandLength * players) {
       for (let hand of playerHands) {
+        if (hand.length < maxHandLength) {
+          hand.push(cards.shift())
+        } else {
+          console.log('hand full')
+        }
+      }
+    }
+  } else {
+    let cardsDealt = 0
+    let dealToPlayer = document.getElementById('deal-to').value
+    if (dealToPlayer && dealToPlayer <= playerHands.length) {
+      hand = playerHands[dealToPlayer - 1]
+      while (cardsDealt < numberOfCardsToDeal && cards.length !== 0) {
         hand.push(cards.shift())
         cardsDealt++
+      }
+      document.getElementById('deal-to').value = ''
+    } else if (!dealToPlayer) {
+      while (cardsDealt < numberOfCardsToDeal && cards.length !== 0) {
+        for (let hand of playerHands) {
+          hand.push(cards.shift())
+          cardsDealt++
+        }
       }
     }
   }
