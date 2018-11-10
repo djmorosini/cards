@@ -36,3 +36,7 @@
 .black {
   color: black;
 }
+
+button {
+  margin-right: 10px;
+}
