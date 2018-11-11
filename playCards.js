@@ -9,7 +9,6 @@ let red = [
   'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
   'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥'
 ]
-let shuffleNumber = 0
 let playerHands = []
 let whichPlayer = 1
 let players
@@ -25,34 +24,35 @@ function chooseRandomSpot(deckArray, arrayIndex) {
 }
 
 function shuffle() {
-  if (cards.length !== 52) {
-    returnAllCards()
+  let deckArray = newDeckArray()
+  let shuffleNumber = 0
+  while (shuffleNumber < 50) {
+    for (let card of cards) {
+      let randomNumber = (Math.floor((Math.random() * 52) + 1));
+      let arrayIndex = deckArray[randomNumber - 1]
+      let randomSpot = chooseRandomSpot(deckArray, arrayIndex)
+      deckArray[randomSpot - 1] = card
+    }
+    cards = deckArray
+    deckArray = newDeckArray()
+    shuffleNumber++
   }
-  let deckArray = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-    14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
-    27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-    40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52
-  ]
-  for (let card of cards) {
-    let randomNumber = (Math.floor((Math.random() * 52) + 1));
-    let arrayIndex = deckArray[randomNumber - 1]
-    let randomSpot = chooseRandomSpot(deckArray, arrayIndex)
-    deckArray[randomSpot - 1] = card
-  }
-  cards = deckArray
+  console.log(cards)
+  return cards
+}
 
-  shuffleNumber++
-  if (shuffleNumber <= 100) {
-    shuffle()
-  } else {
-    shuffleNumber = 0
-    console.log(cards)
-    return cards
+function newDeckArray() {
+  let array = []
+  let i = 1
+  while (array.length !== cards.length) {
+    array.push(i)
+    i++
   }
+  return array
 }
 
 function chooseGamePoker5() {
+  document.getElementById('shuffle-btn').disabled = true
   returnAllCards()
   shuffle()
   players = document.getElementById('players').value
@@ -67,6 +67,7 @@ function chooseGamePoker5() {
 }
 
 function chooseGameBlackjack() {
+  document.getElementById('shuffle-btn').disabled = true
   returnAllCards()
   shuffle()
   players = document.getElementById('players').value
@@ -183,50 +184,28 @@ function discardCard(id, cardColor) {
 }
 
 function reset() {
+  document.getElementById('shuffle-btn').disabled = false
+  returnAllCards()
   shuffle()
   document.getElementById('choose-or-play').innerHTML = `<div># of Players: </div><input id='players' type='text' value='2' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
 }
 
 function playBlackjack() {
-  document.getElementById('choose-or-play').innerHTML = `<div>Player ${whichPlayer}: </div><button onclick='hit()'>Hit</button><button onclick='stay()'>Stay</button>`
+  let handTotal = calculateHandTotal()
+  console.log('hand total ' + handTotal)
+  if (handTotal === 21 && whichPlayer === playerHands.length) {
+    endBlackjack()
+  } else if (handTotal === 21) {
+    whichPlayer++
+    playBlackjack()
+  } else {
+    document.getElementById('choose-or-play').innerHTML = `<div>Player ${whichPlayer}: </div><button onclick='hit()'>Hit</button><button onclick='stay()'>Stay</button>`
+  }
 }
 
 function hit() {
   deal(1, whichPlayer)
-  let handTotalArray = []
-  let acesArray = []
-  for (let cardNumber of playerHands[whichPlayer - 1]) {
-    if (cardNumber.length === 2 && cardNumber !== 10) {
-      cardNumber = cardNumber.slice(0, 1)
-    } else if (cardNumber.length === 3) {
-      cardNumber = cardNumber.slice(0, 2)
-    }
-    if (cardNumber === 'K' || cardNumber === 'Q' || cardNumber === 'J') {
-      cardNumber = 10
-    }
-    if (cardNumber === 'A') {
-      acesArray.push(cardNumber)
-    } else {
-      handTotalArray.push(cardNumber)
-    }
-  }
-  let handTotal = handTotalArray.reduce(
-    (accumulator, currentValue) => parseInt(accumulator) + parseInt(currentValue),
-    0
-  );
-
-  while (acesArray.length > 0) {
-    console.log(acesArray.length)
-    if (handTotal <= 10) {
-      handTotal = handTotal + 11
-      acesArray.pop()
-    } else if (handTotal > 10){
-      handTotal++
-      acesArray.pop()
-    }
-  }
-
-  console.log('hand total ' + handTotal)
+  let handTotal = calculateHandTotal()
   if (handTotal < 21) {
     playBlackjack()
   } else if (handTotal === 21) {
@@ -259,9 +238,42 @@ function stay() {
   }
 }
 
-function endBlackjack() {
-  for (let hand of playerHands) {
-    console.log(hand)
+function calculateHandTotal() {
+  let handTotalArray = []
+  let acesArray = []
+  for (let cardNumber of playerHands[whichPlayer - 1]) {
+    if (cardNumber.length === 2 && cardNumber !== 10) {
+      cardNumber = cardNumber.slice(0, 1)
+    } else if (cardNumber.length === 3) {
+      cardNumber = cardNumber.slice(0, 2)
+    }
+    if (cardNumber === 'K' || cardNumber === 'Q' || cardNumber === 'J') {
+      cardNumber = 10
+    }
+    if (cardNumber === 'A') {
+      acesArray.push(cardNumber)
+    } else {
+      handTotalArray.push(cardNumber)
+    }
   }
-  document.getElementById('choose-or-play').innerHTML = `<div>Play again?</div><div># of Players: </div><input id='players' type='text' value='2' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
+  let handTotal = handTotalArray.reduce(
+    (accumulator, currentValue) => parseInt(accumulator) + parseInt(currentValue),
+    0
+  );
+
+  while (acesArray.length > 0) {
+    if (handTotal <= 10) {
+      handTotal = handTotal + 11
+      acesArray.pop()
+    } else if (handTotal > 10) {
+      handTotal++
+      acesArray.pop()
+    }
+  }
+  return handTotal
+}
+
+function endBlackjack() {
+  document.getElementById('shuffle-btn').disabled = false
+  document.getElementById('choose-or-play').innerHTML = `<div>Play again?</div><div># of Players: </div><input id='players' type='text' value='${players}' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
 }
