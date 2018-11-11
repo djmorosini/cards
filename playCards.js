@@ -15,8 +15,8 @@ let players
 let maxHandLength
 function chooseRandomSpot(deckArray, arrayIndex) {
   if (isNaN(arrayIndex)) {
-    let randomNumber = (Math.floor((Math.random() * 52) + 1));
-    let newSpot = deckArray[randomNumber - 1]
+    let randomNumber = Math.floor(Math.random() * 52);
+    let newSpot = deckArray[randomNumber]
     return chooseRandomSpot(deckArray, newSpot)
   } else {
     return arrayIndex
@@ -28,21 +28,22 @@ function shuffle() {
   let shuffleNumber = 0
   while (shuffleNumber < 50) {
     for (let card of cards) {
-      let randomNumber = (Math.floor((Math.random() * 52) + 1));
-      let arrayIndex = deckArray[randomNumber - 1]
+      let randomNumber = Math.floor(Math.random() * 52);
+      let arrayIndex = deckArray[randomNumber]
       let randomSpot = chooseRandomSpot(deckArray, arrayIndex)
-      deckArray[randomSpot - 1] = card
+      deckArray[randomSpot] = card
     }
     cards = deckArray
     deckArray = newDeckArray()
     shuffleNumber++
   }
+  console.log(cards)
   return cards
 }
 
 function newDeckArray() {
   let array = []
-  let i = 1
+  let i = 0
   while (array.length !== cards.length) {
     array.push(i)
     i++
@@ -183,6 +184,7 @@ function reset() {
   returnAllCards()
   shuffle()
   document.getElementById('choose-or-play').innerHTML = `<div># of Players: </div><input id='players' type='text' value='2' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
+  document.getElementById('message').textContent = ''
 }
 
 function playBlackjack() {
