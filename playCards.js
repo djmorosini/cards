@@ -37,7 +37,6 @@ function shuffle() {
     deckArray = newDeckArray()
     shuffleNumber++
   }
-  console.log(cards)
   return cards
 }
 
@@ -97,8 +96,6 @@ function deal(numberOfCardsToDeal, dealToPlayer) {
       for (let hand of playerHands) {
         if (hand.length < maxHandLength) {
           hand.push(cards.shift())
-        } else {
-          console.log('hand full')
         }
       }
     }
@@ -119,8 +116,6 @@ function deal(numberOfCardsToDeal, dealToPlayer) {
       }
     }
   }
-  console.log(playerHands)
-  console.log(cards)
   displayCards()
   return playerHands
 }
@@ -192,7 +187,7 @@ function reset() {
 
 function playBlackjack() {
   let handTotal = calculateHandTotal()
-  console.log('hand total ' + handTotal)
+  document.getElementById('message').textContent = (`Player ${whichPlayer} hand total ${handTotal}.`)
   if (handTotal === 21 && whichPlayer === playerHands.length) {
     endBlackjack()
   } else if (handTotal === 21) {
@@ -209,7 +204,7 @@ function hit() {
   if (handTotal < 21) {
     playBlackjack()
   } else if (handTotal === 21) {
-    console.log(`Player ${whichPlayer} got 21!`)
+    document.getElementById('message').textContent = (`Player ${whichPlayer} got 21!`)
     if (whichPlayer == playerHands.length) {
       whichPlayer = 1
       endBlackjack()
@@ -276,4 +271,5 @@ function calculateHandTotal() {
 function endBlackjack() {
   document.getElementById('shuffle-btn').disabled = false
   document.getElementById('choose-or-play').innerHTML = `<div>Play again?</div><div># of Players: </div><input id='players' type='text' value='${players}' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
+  document.getElementById('message').textContent = ''
 }
