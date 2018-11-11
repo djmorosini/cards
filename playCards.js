@@ -24,7 +24,7 @@ function chooseRandomSpot(deckArray, arrayIndex) {
 }
 
 function shuffle() {
-  let deckArray = newDeckArray()
+  let deckArray = [...Array(cards.length).keys()]
   let shuffleNumber = 0
   while (shuffleNumber < 50) {
     for (let card of cards) {
@@ -34,21 +34,10 @@ function shuffle() {
       deckArray[randomSpot] = card
     }
     cards = deckArray
-    deckArray = newDeckArray()
+    deckArray = [...Array(cards.length).keys()]
     shuffleNumber++
   }
   console.log(cards)
-  return cards
-}
-
-function newDeckArray() {
-  let array = []
-  let i = 0
-  while (array.length !== cards.length) {
-    array.push(i)
-    i++
-  }
-  return array
 }
 
 function chooseGamePoker5() {
@@ -118,7 +107,6 @@ function deal(numberOfCardsToDeal, dealToPlayer) {
     }
   }
   displayCards()
-  return playerHands
 }
 
 function displayCards() {
@@ -149,7 +137,6 @@ function returnAllCards() {
   playerHands = []
   let handsDiv = document.getElementById('hands-wrap')
   handsDiv.innerHTML = ''
-  return cards
 }
 
 function throwAwayCards() {
@@ -165,7 +152,6 @@ function throwAwayCards() {
     playerHands[i] = hand
     i++
   }
-  return playerHands
 }
 
 function discardCard(id, cardColor) {
