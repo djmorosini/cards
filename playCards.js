@@ -41,7 +41,6 @@ function shuffle() {
 }
 
 function chooseGamePoker5() {
-  document.getElementById('shuffle-btn').disabled = true
   returnAllCards()
   shuffle()
   players = document.getElementById('players').value
@@ -56,7 +55,6 @@ function chooseGamePoker5() {
 }
 
 function chooseGameBlackjack() {
-  document.getElementById('shuffle-btn').disabled = true
   returnAllCards()
   shuffle()
   players = document.getElementById('players').value
@@ -64,6 +62,12 @@ function chooseGameBlackjack() {
   let cardsToDeal = players * 2
   while (playerHands.length < players) {
     playerHands.push([])
+  }
+  let handsDiv = document.getElementById('hands-wrap')
+  handsDiv.innerHTML = ''
+  for (let player=1; player < playerHands.length + 1; player++) {
+    handsDiv.innerHTML += '<div>Player ' + player + ': <span id="player'+player+'status"></span></div>'
+    handsDiv.innerHTML += `<div class="player-hand" id="player${player}"></div>`
   }
   deal(cardsToDeal)
   playBlackjack()
@@ -76,11 +80,7 @@ function deal(numberOfCardsToDeal, dealToPlayer) {
   if (!dealToPlayer && dealToDiv) {
     dealToPlayer = document.getElementById('deal-to').value
   }
-  if (playerHands.length !== players) {
-    while (playerHands.length < players) {
-      playerHands.push([])
-    }
-  }
+
   if (maxHandLength) {
     while (playerHands.join(',').split(',').length < maxHandLength * players) {
       for (let hand of playerHands) {
@@ -106,17 +106,16 @@ function deal(numberOfCardsToDeal, dealToPlayer) {
       }
     }
   }
+  console.log(playerHands)
   displayCards()
+  console.log(cards)
 }
 
 function displayCards() {
-  let handsDiv = document.getElementById('hands-wrap')
-  handsDiv.innerHTML = ''
   let player = 1
   for (let hand of playerHands) {
-    handsDiv.innerHTML += 'Player ' + player + ': '
-    handsDiv.innerHTML += `<div class="player-hand" id="player${player}"></div>`
     playerHandDiv = document.getElementById(`player${player}`)
+    playerHandDiv.innerHTML = ''
     for (let card of hand) {
       if (red.includes(card)) {
         playerHandDiv.innerHTML += `<div id="${card}" onclick="discardCard('${card}', 'red')" class="card-face red">${card}</div>`
@@ -166,19 +165,19 @@ function discardCard(id, cardColor) {
 }
 
 function reset() {
-  document.getElementById('shuffle-btn').disabled = false
   returnAllCards()
   shuffle()
   document.getElementById('choose-or-play').innerHTML = `<div># of Players: </div><input id='players' type='text' value='2' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
-  document.getElementById('message').textContent = ''
 }
 
 function playBlackjack() {
   let handTotal = calculateHandTotal()
-  document.getElementById('message').textContent = (`Player ${whichPlayer} hand total ${handTotal}.`)
+  document.getElementById(`player${whichPlayer}status`).textContent = (`hand total ${handTotal}.`)
   if (handTotal === 21 && whichPlayer === playerHands.length) {
+    document.getElementById(`player${whichPlayer}status`).textContent = (`Blackjack!`)
     endBlackjack()
   } else if (handTotal === 21) {
+    document.getElementById(`player${whichPlayer}status`).textContent = (`Blackjack!`)
     whichPlayer++
     playBlackjack()
   } else {
@@ -192,7 +191,7 @@ function hit() {
   if (handTotal < 21) {
     playBlackjack()
   } else if (handTotal === 21) {
-    document.getElementById('message').textContent = (`Player ${whichPlayer} got 21!`)
+    document.getElementById(`player${whichPlayer}status`).textContent = (`21!`)
     if (whichPlayer == playerHands.length) {
       whichPlayer = 1
       endBlackjack()
@@ -201,6 +200,7 @@ function hit() {
       playBlackjack()
     }
   } else if (handTotal > 21) {
+    document.getElementById(`player${whichPlayer}status`).textContent = (`BUST!`)
     if (whichPlayer == playerHands.length) {
       whichPlayer = 1
       endBlackjack()
@@ -257,7 +257,5 @@ function calculateHandTotal() {
 }
 
 function endBlackjack() {
-  document.getElementById('shuffle-btn').disabled = false
   document.getElementById('choose-or-play').innerHTML = `<div>Play again?</div><div># of Players: </div><input id='players' type='text' value='${players}' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
-  document.getElementById('message').textContent = ''
 }
