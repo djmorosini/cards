@@ -65,8 +65,8 @@ function chooseGameBlackjack() {
   }
   let handsDiv = document.getElementById('hands-wrap')
   handsDiv.innerHTML = ''
-  for (let player=1; player < playerHands.length + 1; player++) {
-    handsDiv.innerHTML += '<div>Player ' + player + ': <span id="player'+player+'status"></span></div>'
+  for (let player = 1; player < playerHands.length + 1; player++) {
+    handsDiv.innerHTML += '<div>Player ' + player + ': <span id="player' + player + 'status"></span></div>'
     handsDiv.innerHTML += `<div class="player-hand" id="player${player}"></div>`
   }
   deal(cardsToDeal)
@@ -167,19 +167,22 @@ function discardCard(id, cardColor) {
 function reset() {
   returnAllCards()
   shuffle()
+  whichPlayer = 1
   document.getElementById('choose-or-play').innerHTML = `<div># of Players: </div><input id='players' type='text' value='2' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
 }
 
 function playBlackjack() {
   let handTotal = calculateHandTotal()
   document.getElementById(`player${whichPlayer}status`).textContent = (`hand total ${handTotal}.`)
-  if (handTotal === 21 && whichPlayer === playerHands.length) {
+  if (handTotal === 21) {
     document.getElementById(`player${whichPlayer}status`).textContent = (`Blackjack!`)
-    endBlackjack()
-  } else if (handTotal === 21) {
-    document.getElementById(`player${whichPlayer}status`).textContent = (`Blackjack!`)
-    whichPlayer++
-    playBlackjack()
+    if (whichPlayer === playerHands.length) {
+      whichPlayer = 1
+      endBlackjack()
+    } else {
+      whichPlayer++
+      playBlackjack()
+    }
   } else {
     document.getElementById('choose-or-play').innerHTML = `<div>Player ${whichPlayer}: </div><button onclick='hit()'>Hit</button><button onclick='stay()'>Stay</button>`
   }
@@ -257,5 +260,6 @@ function calculateHandTotal() {
 }
 
 function endBlackjack() {
+  whichPlayer = 1
   document.getElementById('choose-or-play').innerHTML = `<div>Play again?</div><div># of Players: </div><input id='players' type='text' value='${players}' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
 }
