@@ -176,6 +176,9 @@ function reset() {
   returnAllCards()
   shuffle()
   document.getElementById('choose-or-play').innerHTML = `<div># of Players: </div><input id='players' type='text' value='2' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
+  whichPlayer = 1
+  players = null
+  maxHandLength = null
 }
 
 function playBlackjack() {
