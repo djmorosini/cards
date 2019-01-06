@@ -50,6 +50,12 @@ function chooseGamePoker5() {
   while (playerHands.length < players) {
     playerHands.push([])
   }
+  let handsDiv = document.getElementById('hands-wrap')
+  handsDiv.innerHTML = ''
+  for (let player = 1; player < playerHands.length + 1; player++) {
+    handsDiv.innerHTML += '<div>Player ' + player + ': <span id="player' + player + 'status"></span></div>'
+    handsDiv.innerHTML += `<div class="player-hand" id="player${player}"></div>`
+  }
   deal(cardsToDeal)
   document.getElementById('choose-or-play').innerHTML = `<button onclick='deal()'>Deal</button>`
 }
@@ -58,6 +64,7 @@ function chooseGameBlackjack() {
   returnAllCards()
   shuffle()
   players = document.getElementById('players').value
+  maxHandLength = ''
 
   let cardsToDeal = players * 2
   while (playerHands.length < players) {
@@ -81,7 +88,7 @@ function deal(numberOfCardsToDeal, dealToPlayer) {
     dealToPlayer = document.getElementById('deal-to').value
   }
 
-  if (maxHandLength) {
+  if (maxHandLength == 5) {
     while (playerHands.join(',').split(',').length < maxHandLength * players) {
       for (let hand of playerHands) {
         if (hand.length < maxHandLength) {
@@ -128,6 +135,7 @@ function displayCards() {
 }
 
 function returnAllCards() {
+  console.log(playerHands)
   for (let hand of playerHands) {
     for (let card of hand) {
       cards.push(card)
@@ -167,7 +175,6 @@ function discardCard(id, cardColor) {
 function reset() {
   returnAllCards()
   shuffle()
-  whichPlayer = 1
   document.getElementById('choose-or-play').innerHTML = `<div># of Players: </div><input id='players' type='text' value='2' /><button onclick='chooseGamePoker5()'>5 Card Poker</button><button onclick='chooseGameBlackjack()'>Blackjack</button>`
 }
 
