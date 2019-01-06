@@ -64,7 +64,7 @@ function chooseGameBlackjack() {
   returnAllCards()
   shuffle()
   players = document.getElementById('players').value
-  maxHandLength = ''
+  maxHandLength = null
 
   let cardsToDeal = players * 2
   while (playerHands.length < players) {
